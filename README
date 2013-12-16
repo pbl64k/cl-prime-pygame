@@ -1,0 +1,10 @@
+A very basic clone of Color Lines. See:
+
+http://en.wikipedia.org/wiki/Color_Lines
+
+No frills.
+
+Just fooling around with Pygame, really. Tested with Pygame 1.9.1.
+
+Note that this may be prone to consuming all available cycles (on a single
+core, at least), as the event loop is unthrottled.
