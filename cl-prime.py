@@ -148,8 +148,8 @@ class Board(object):
 
     def neighbors(self, pt, v):
         ns = []
-        for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
-            ns.append([(pt[0][0] + dx, pt[0][1] + dy)] + pt)
+        for delta in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            ns.append([tuple(addvec(pt[0], delta))] + pt)
         return filter(lambda x: self.valid(x[0]) and not v[x[0][0]][x[0][1]] and self.board[x[0][0]][x[0][1]] is None, ns)
         
     def path(self, src, dst):
@@ -193,12 +193,12 @@ class Board(object):
                 if not added:
                     break
             if len(res) >= MIN_BEADS_FOR_REMOVAL - 1:
-                score += SCORE_FACTOR * factor * (len(res) + 1) * (BONUS_FACTOR_1 ** max(len(res) - MIN_BEADS_FOR_REMOVAL, 0.0))
+                score += SCORE_FACTOR * (len(res) + 1) * (BONUS_FACTOR_1 ** max(len(res) - MIN_BEADS_FOR_REMOVAL, 0.0))
                 factor *= BONUS_FACTOR_2
                 deleted |= res
         if len(deleted) > 0:
             deleted.add(pos)
-        return (deleted, int(score))
+        return (deleted, int(score * (factor / BONUS_FACTOR_2)))
 
 class Ui(object):
     def __init__(self, board):
